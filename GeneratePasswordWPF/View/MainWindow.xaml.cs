@@ -20,5 +20,46 @@ namespace GeneratePasswordWPF
         {
             InitializeComponent();
         }
+
+        public void FullScreenState()
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                borderWindowScreen.CornerRadius = new CornerRadius(20);
+                WindowState = WindowState.Normal;
+            }
+            else
+            {
+                borderWindowScreen.CornerRadius = new CornerRadius(0);
+                WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void borderClose_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        private void borderInFullScreen_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            FullScreenState();
+        }
+
+        private void borderHide_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void borderMoveScreen_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ChangedButton==MouseButton.Left && e.ClickCount == 2)
+            {
+                FullScreenState();
+            }
+            else
+            {
+                DragMove();
+            }
+        }
     }
 }
