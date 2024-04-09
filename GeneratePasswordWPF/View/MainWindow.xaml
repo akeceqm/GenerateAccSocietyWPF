@@ -5,8 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeneratePasswordWPF"
         mc:Ignorable="d"
-        Title="GeneratePassword" MinWidth="1080" Height="600" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" Background="Transparent" WindowStyle="None">
-    <Border>
-        
+        Title="GeneratePassword" MinWidth="1080" MinHeight="600" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" Background="Transparent" WindowStyle="None">
+    <Border x:Name="borderWindowScreen" CornerRadius="20" Background="#9EA7D1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="750*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Для управления положением окна-->
+            <Border x:Name="borderMoveScreen" MouseDown="borderMoveScreen_MouseDown" Grid.ColumnSpan="3" Height="50" VerticalAlignment="Top" Background="Transparent"/>
+
+            <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Закрытие окна-->
+                <Border x:Name="borderClose" MouseDown="borderClose_MouseDown" Grid.Column="4" Style="{StaticResource borderClose}"/>
+                <Border Grid.Column="1"/>
+                <!--На весь экран либо вернуть к сандартному размеру окно-->
+                <Border x:Name="borderInFullScreen" MouseDown="borderInFullScreen_MouseDown" Grid.Column="2" Style="{StaticResource borderInFullScreen}"/>
+                <Border Grid.Column="3"/>
+                <!--Свернуть окно-->
+                <Border x:Name="borderHide" MouseDown="borderHide_MouseDown" Grid.Column="0" Style="{StaticResource borderHide}"/>
+                <Border/>
+            </Grid>
+            
+            
+        </Grid>
     </Border>
 </Window>
