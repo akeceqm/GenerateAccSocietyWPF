@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:GeneratePasswordWPF"
         mc:Ignorable="d"
         Title="GeneratePassword" MinWidth="1080" MinHeight="600" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" Background="Transparent" WindowStyle="None">
@@ -36,8 +37,22 @@
                 <Border x:Name="borderHide" MouseDown="borderHide_MouseDown" Grid.Column="0" Style="{StaticResource borderHide}"/>
                 <Border/>
             </Grid>
-            
-            
+
+
+
+            <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
+                <Border Width="60" Height="200" CornerRadius="20" Background="#C098FC">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border MouseEnter="borderClickMainPasswordGenerate_MouseEnter" MouseLeave="borderClickMainPasswordGenerate_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome Icon="Lock" Width="25"/>
+                        </Border>
+                        <Border MouseEnter="borderClickPasswordDbList_MouseEnter" MouseLeave="borderClickPasswordDbList_MouseLeave" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome Icon="List" Width="25"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
         </Grid>
     </Border>
 </Window>
