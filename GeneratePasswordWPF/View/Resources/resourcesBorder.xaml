@@ -2,46 +2,58 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
-	<!--<Базовый стиль для кноппок Border-->
-	<Style x:Key="baseBorderButton" TargetType ="Border">
-		<Setter Property="Width" Value="20"/>
-		<Setter Property="Height" Value="20"/>
-		<Setter Property="CornerRadius" Value="20"/>
-		<Setter Property="Cursor" Value="Hand"/>
-	</Style>
+    <!--<Базовый стиль для кноппок Border-->
+    <Style x:Key="baseBorderButton" TargetType ="Border">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="CornerRadius" Value="20"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
 
-	<Style x:Key="borderClose" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
-		<Setter Property="Background" Value ="#FF0000"/>
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="Background" Value="#B90000"/>
-			</Trigger>
-		</Style.Triggers>
-	</Style>
+    <Style x:Key="borderClose" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
+        <Setter Property="Background" Value ="#FF0000"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#B90000"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
-	<Style x:Key="borderInFullScreen" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
-		<Setter Property="Background" Value ="#F3FF00"/>
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="Background" Value="#CCD600"/>
-			</Trigger>
-		</Style.Triggers>
-	</Style>
+    <Style x:Key="borderInFullScreen" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
+        <Setter Property="Background" Value ="#F3FF00"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#CCD600"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
-	<Style x:Key="borderHide" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
-		<Setter Property="Background" Value ="#62F601"/>
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="Background" Value="#51CC00"/>
-			</Trigger>
-		</Style.Triggers>
-	</Style>
+    <Style x:Key="borderHide" BasedOn="{StaticResource baseBorderButton}" TargetType="Border">
+        <Setter Property="Background" Value ="#62F601"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#51CC00"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
-	<Style x:Key="borderMoveGrid" TargetType="Border">
-		<Setter Property="Width" Value="40"/>
-		<Setter Property="Height" Value="40"/>
-		<Setter Property="CornerRadius" Value="10"/>
-		<Setter Property="Margin" Value="5"/>
-	</Style>
+    <Style x:Key="borderMoveGrid" TargetType="Border">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+
+    <Style x:Key="borderMovePasswordGenerateVarible" TargetType="Border">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Width" Value="80"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#7163ba"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Margin" Value="40"/>
+    </Style>
 
 </ResourceDictionary>
