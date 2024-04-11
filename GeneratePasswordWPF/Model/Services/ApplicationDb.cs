@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeneratePasswordWPF.Model
+namespace GeneratePasswordWPF.Model.Services
 {
-    public class ApplicationDb
+    class ApplicationDb
     {
     }
 }

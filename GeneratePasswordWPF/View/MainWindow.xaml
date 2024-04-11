@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:GeneratePasswordWPF"
         mc:Ignorable="d"
         Title="GeneratePassword" MinWidth="1080" MinHeight="600" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" Background="Transparent" WindowStyle="None">
-    <Border x:Name="borderWindowScreen" CornerRadius="20" Background="#9EA7D1">
+    <Border BorderThickness="3" BorderBrush="#7163ba" x:Name="borderWindowScreen" CornerRadius="20" Background="#000A17">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -38,15 +38,51 @@
                 <Border/>
             </Grid>
 
+            <Grid Grid.Column="1">
+                <Border  VerticalAlignment="top" Margin="0,150,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="550"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Foreground="#fff" x:Name="resultPassword" Content="Тут будет находиться ваш пароль!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
+                        <fa:ImageAwesome MouseDown="copyPassword_MouseDown" Cursor="Hand" x:Name="copyPassword" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff"/>
+                    </Grid>
+                </Border>
 
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border x:Name="borderAZ" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}" >
+                        <Label x:Name="labAZ" Style="{StaticResource labelBorderClick}" Content="A-Z;a-z"/>
+                    </Border>
+
+                    <Border x:Name="border09" MouseLeftButtonDown="Border_MouseLeftButtonDown"  MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}">
+                        <Label x:Name="lab09" Style="{StaticResource labelBorderClick}" Content="0-9"/>
+                    </Border>
+
+                    <Border x:Name="borderSymbol" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}" >
+                        <Label  x:Name="labSymbol" Style="{StaticResource labelBorderClick}" Content="!@$"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,180,0,0">
+                    <Label Foreground="#fff" Content="Введите нужное количество символов" FontSize="15" Margin="0,0,0,10"/>
+                    <Border Width="100" Height="50"  BorderThickness="1" BorderBrush="DarkBlue">
+                        <TextBox CaretBrush="#fff" Foreground="#fff" Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" Background="Transparent" x:Name="amount"/>
+                    </Border>
+                </StackPanel>
+
+                <Border x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,350,0,0">
+                    <Label Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Content="Генерировать"/>
+                </Border>
+            </Grid>
 
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
                 <Border Width="60" Height="200" CornerRadius="20" Background="#C098FC">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Border MouseEnter="borderClickMainPasswordGenerate_MouseEnter" MouseLeave="borderClickMainPasswordGenerate_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
+                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
                             <fa:ImageAwesome Icon="Lock" Width="25"/>
                         </Border>
-                        <Border MouseEnter="borderClickPasswordDbList_MouseEnter" MouseLeave="borderClickPasswordDbList_MouseLeave" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
+                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
                             <fa:ImageAwesome Icon="List" Width="25"/>
                         </Border>
                     </StackPanel>
