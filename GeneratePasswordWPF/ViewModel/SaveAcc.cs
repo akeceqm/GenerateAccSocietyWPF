@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeneratePasswordWPF.ViewModel
 {
-    class DeletePassword
+    class SaveAcc
     {
     }
 }

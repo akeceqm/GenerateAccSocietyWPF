@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Windows.UI.Notifications;
 
 namespace GeneratePasswordWPF
 {
@@ -110,11 +111,8 @@ namespace GeneratePasswordWPF
             if (border.BorderBrush.Equals(Brushes.White))
             {
                 // Сейчас кнопка активна, делаем неактивной
-                border.BorderBrush = Brushes.Black;
                 border.MouseEnter += LabelBorderClickVariblePassword_MouseEnter;
                 border.MouseLeave += LabelBorderClickVariblePassword_MouseLeave;
-                border.BorderBrush = Brushes.Black;
-
             }
             else
             {
@@ -125,12 +123,66 @@ namespace GeneratePasswordWPF
             }
         }
 
-        public void variblePasswordLet(List<string> lettersList)
+        private void variblePasswordLet(List<string> lettersList)
         {
             if (int.TryParse(amount.Text, out var amountPass))
             {
                 string password = generatePassword.GenerateVariblePasswordLet(lettersList, amountPass);
                 resultPassword.Content = password;
+            }
+        }
+
+        private void varibleLoginLet(List<string> lettersList)
+        {
+            if (int.TryParse(amount.Text, out var amountPass))
+            {
+                string login = generatePassword.GenerateVariblePasswordLet(lettersList, amountPass);
+                resultLogin.Content = login;
+            }
+        }
+
+        private void borderClickLoginGenerate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            List<string> combinedList = new List<string>();
+            if (borderAZ.BorderBrush == Brushes.White)
+            {
+                varibleLoginLet(ListPassSymbol.lettersLowerAndUpper);
+            }
+            if (border09.BorderBrush == Brushes.White)
+            {
+                varibleLoginLet(ListPassSymbol.numberList);
+            }
+            if (borderSymbol.BorderBrush == Brushes.White)
+            {
+                varibleLoginLet(ListPassSymbol.symbolList);
+            }
+            if (borderAZ.BorderBrush == Brushes.White && border09.BorderBrush == Brushes.White)
+            {
+
+                combinedList.AddRange(ListPassSymbol.lettersLowerAndUpper);
+                combinedList.AddRange(ListPassSymbol.numberList);
+                varibleLoginLet(combinedList);
+            }
+            if (borderAZ.BorderBrush == Brushes.White && borderSymbol.BorderBrush == Brushes.White)
+            {
+
+                combinedList.AddRange(ListPassSymbol.lettersLowerAndUpper);
+                combinedList.AddRange(ListPassSymbol.symbolList);
+                varibleLoginLet(combinedList);
+            }
+            if (border09.BorderBrush == Brushes.White && borderSymbol.BorderBrush == Brushes.White)
+            {
+
+                combinedList.AddRange(ListPassSymbol.numberList);
+                combinedList.AddRange(ListPassSymbol.symbolList);
+                varibleLoginLet(combinedList);
+            }
+            if (borderAZ.BorderBrush == Brushes.White && border09.BorderBrush == Brushes.White && borderSymbol.BorderBrush == Brushes.White)
+            {
+                combinedList.AddRange(ListPassSymbol.lettersLowerAndUpper);
+                combinedList.AddRange(ListPassSymbol.numberList);
+                combinedList.AddRange(ListPassSymbol.symbolList);
+                varibleLoginLet(combinedList);
             }
         }
 
@@ -181,9 +233,17 @@ namespace GeneratePasswordWPF
 
         private void copyPassword_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string originalText = resultPassword.ToString();
+            string originalTextPassword = resultPassword.ToString();
             string deleteText = "System.Windows.Controls.Label: ";
-            Clipboard.SetText(originalText.Substring(deleteText.Length));
+            Clipboard.SetText(originalTextPassword.Substring(deleteText.Length));
+        }
+
+        private void copyLogin_MouseDown(object sender, MouseButtonEventArgs e)
+        {   
+            string originalTexLogin = resultLogin.ToString();
+            string deleteText = "System.Windows.Controls.Label: ";
+            Clipboard.SetText(originalTexLogin.Substring(deleteText.Length));
+            
         }
     }
 }

@@ -38,42 +38,111 @@
                 <Border/>
             </Grid>
 
-            <Grid Grid.Column="1">
-                <Border  VerticalAlignment="top" Margin="0,150,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="550"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Foreground="#fff" x:Name="resultPassword" Content="Тут будет находиться ваш пароль!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
-                        <fa:ImageAwesome MouseDown="copyPassword_MouseDown" Cursor="Hand" x:Name="copyPassword" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff"/>
-                    </Grid>
-                </Border>
+            <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"  VerticalAlignment="top" Margin="-70,100,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="550"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Foreground="#fff" x:Name="resultLogin" Content="Тут будет находиться ваш логин!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
+                            <fa:ImageAwesome MouseDown="copyLogin_MouseDown" Cursor="Hand" x:Name="copyLogin" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff">
+                                <fa:ImageAwesome.ToolTip>
+                                    <ToolTip Style="{StaticResource toolTipContent}">
+                                        <TextBlock Text="При нажатии логин сохранится в буфере обмена"/>
+                                    </ToolTip>
+                                </fa:ImageAwesome.ToolTip>
+                            </fa:ImageAwesome>
+                        </Grid>
+                    </Border>
+
+                    <!--Кнопка для генерации ЛОГИНА-->
+                    <Border Grid.Row="0" x:Name="borderClickLoginGenerate" MouseDown="borderClickLoginGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,110,20,0">
+                        <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
+                    </Border>
+                    
+                <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+                    <Border Grid.Row="1"  VerticalAlignment="top" Margin="-70,0,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="550"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Foreground="#fff" x:Name="resultPassword" Content="Тут будет находиться ваш пароль!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
+                            <fa:ImageAwesome MouseDown="copyPassword_MouseDown" Cursor="Hand" x:Name="copyPassword" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff">
+                                <fa:ImageAwesome.ToolTip>
+                                    <ToolTip Style="{StaticResource toolTipContent}" Cursor="">
+                                        <TextBlock Text="При нажатии пароль сохранится в буфере обмена"/>
+                                    </ToolTip>
+                                </fa:ImageAwesome.ToolTip>
+                            </fa:ImageAwesome>
+                        </Grid>
+                    </Border>
+
+                    <!--Кнопка для генерации пароля-->
+                    <Border Grid.Row="1" x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,10,20,0" Cursor="">
+                        <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
+                    </Border>
+                </Grid>
+
+                <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+
+                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Border x:Name="borderAZ" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}" >
                         <Label x:Name="labAZ" Style="{StaticResource labelBorderClick}" Content="A-Z;a-z"/>
+                        <Border.ToolTip>
+                            <ToolTip Style="{StaticResource toolTipContent}">
+                                <TextBlock Text="В пароле будут буквы"/>
+                            </ToolTip>
+                        </Border.ToolTip>
                     </Border>
 
                     <Border x:Name="border09" MouseLeftButtonDown="Border_MouseLeftButtonDown"  MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}">
                         <Label x:Name="lab09" Style="{StaticResource labelBorderClick}" Content="0-9"/>
+                        <Border.ToolTip>
+                            <ToolTip Style="{StaticResource toolTipContent}">
+                                <TextBlock Text="В пароле будут цифры"/>
+                            </ToolTip>
+                        </Border.ToolTip>
                     </Border>
 
                     <Border x:Name="borderSymbol" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}" >
                         <Label  x:Name="labSymbol" Style="{StaticResource labelBorderClick}" Content="!@$"/>
+                        <Border.ToolTip>
+                            <ToolTip Style="{StaticResource toolTipContent}">
+                                <TextBlock Text="В пароле будут символы"/>
+                            </ToolTip>
+                        </Border.ToolTip>
                     </Border>
                 </StackPanel>
 
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,180,0,0">
+                <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,200,0,0">
                     <Label Foreground="#fff" Content="Введите нужное количество символов" FontSize="15" Margin="0,0,0,10"/>
                     <Border Width="100" Height="50"  BorderThickness="1" BorderBrush="DarkBlue">
-                        <TextBox CaretBrush="#fff" Foreground="#fff" Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" Background="Transparent" x:Name="amount"/>
+                        <TextBox  CaretBrush="#fff" Foreground="#fff" Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" Background="Transparent" x:Name="amount">
+                            <TextBox.ToolTip>
+                                <ToolTip Style="{StaticResource toolTipContent}">
+                                    <TextBox  Background="#80000000" Foreground="#fff" BorderThickness="0" Text="Число введеное сюда будет длинной пароля"/>
+                                </ToolTip>
+                            </TextBox.ToolTip>
+                        </TextBox>
                     </Border>
                 </StackPanel>
 
-                <Border x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,350,0,0">
-                    <Label Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Content="Генерировать"/>
-                </Border>
+               
             </Grid>
 
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
