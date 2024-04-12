@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View\Resources\resourcesBorder.xaml"/>
                 <ResourceDictionary Source="View\Resources\resourcesLabel.xaml"/>
+                <ResourceDictionary Source="View\Resources\resourcesToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
