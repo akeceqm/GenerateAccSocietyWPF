@@ -40,14 +40,14 @@
 
             <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0"  VerticalAlignment="top" Margin="-70,100,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                    <Border Grid.Row="0"  VerticalAlignment="top" Margin="-70,50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="550"/>
@@ -65,13 +65,13 @@
                     </Border>
 
                     <!--Кнопка для генерации ЛОГИНА-->
-                    <Border Grid.Row="0" x:Name="borderClickLoginGenerate" MouseDown="borderClickLoginGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,110,20,0">
+                    <Border Grid.Row="0" x:Name="borderClickLoginGenerate" MouseDown="borderClickLoginGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,55,20,0">
                         <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
                     </Border>
                     
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
-                    <Border Grid.Row="1"  VerticalAlignment="top" Margin="-70,0,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                    <Border Grid.Row="1"  VerticalAlignment="top" Margin="-70,-50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="550"/>
@@ -89,15 +89,22 @@
                     </Border>
 
                     <!--Кнопка для генерации пароля-->
-                    <Border Grid.Row="1" x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,10,20,0" Cursor="">
+                    <Border Grid.Row="1" x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,-45,20,0" Cursor="Hand">
                         <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
                     </Border>
                 </Grid>
 
+                <Border CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Width="500" Height="70" Margin="0,235,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Выберите соц-сеть" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                        <ListBox Margin="20,0,0,0" x:Name="listBoxSociety" Foreground="#fff" FontSize="15" BorderBrush="#7163ba" BorderThickness="2" Background="#000A17" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" MaxHeight="150"/>
+                    </StackPanel>
+                </Border>
+
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
 
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="0,320,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <Border x:Name="borderAZ" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseEnter="LabelBorderClickVariblePassword_MouseEnter" MouseLeave="LabelBorderClickVariblePassword_MouseLeave" Style="{StaticResource borderMovePasswordGenerateVarible}" >
                         <Label x:Name="labAZ" Style="{StaticResource labelBorderClick}" Content="A-Z;a-z"/>
                         <Border.ToolTip>
@@ -129,17 +136,22 @@
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
 
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,200,0,0">
+                <StackPanel VerticalAlignment="top" HorizontalAlignment="Center" Margin="0,410,0,0">
                     <Label Foreground="#fff" Content="Введите нужное количество символов" FontSize="15" Margin="0,0,0,10"/>
-                    <Border Width="100" Height="50"  BorderThickness="1" BorderBrush="DarkBlue">
-                        <TextBox  CaretBrush="#fff" Foreground="#fff" Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" Background="Transparent" x:Name="amount">
-                            <TextBox.ToolTip>
-                                <ToolTip Style="{StaticResource toolTipContent}">
-                                    <TextBox  Background="#80000000" Foreground="#fff" BorderThickness="0" Text="Число введеное сюда будет длинной пароля"/>
-                                </ToolTip>
-                            </TextBox.ToolTip>
-                        </TextBox>
-                    </Border>
+                    <StackPanel Orientation="Vertical">
+                        <Border HorizontalAlignment="Center" Width="100" Height="50"  BorderThickness="1" BorderBrush="DarkBlue">
+                            <TextBox  CaretBrush="#fff" Foreground="#fff" Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" Background="Transparent" x:Name="amount">
+                                <TextBox.ToolTip>
+                                    <ToolTip Style="{StaticResource toolTipContent}">
+                                        <TextBox  Background="#80000000" Foreground="#fff" BorderThickness="0" Text="Число введеное сюда будет длинной пароля"/>
+                                    </ToolTip>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                        </Border>
+                        <Border x:Name="borderSaveAcc" MouseEnter="borderSaveAcc_MouseEnter" MouseLeave="borderSaveAcc_MouseLeave"  HorizontalAlignment="Center" Margin="0,10,0,0" CornerRadius="20" Width="200" Height="50"  BorderThickness="1" BorderBrush="#7163ba">
+                            <Label x:Name="saveAcc" Cursor="Hand" Content="Сохранить аккаунт" Foreground="#fff" Width="200"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="15" Background="Transparent" ></Label>
+                        </Border>
+                    </StackPanel>
                 </StackPanel>
 
                

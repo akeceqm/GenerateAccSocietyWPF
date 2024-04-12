@@ -1,4 +1,5 @@
-﻿using GeneratePasswordWPF.ViewModel;
+﻿using GeneratePasswordWPF.Model.DbTables;
+using GeneratePasswordWPF.ViewModel;
 using System;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -14,12 +15,16 @@ namespace GeneratePasswordWPF
 {
     public partial class MainWindow : Window
     {
-
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
         public MainWindow()
         {
             InitializeComponent();
+            List<SocietyTable> societies = TestLsit.GetTestSocieties();
+            foreach(var society in societies)
+            {
+                listBoxSociety.Items.Add(society.SocietyName);
+            }
         }
 
         public void FullScreenState()
@@ -244,6 +249,18 @@ namespace GeneratePasswordWPF
             string deleteText = "System.Windows.Controls.Label: ";
             Clipboard.SetText(originalTexLogin.Substring(deleteText.Length));
             
+        }
+
+        private void borderSaveAcc_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Border border = (Border)sender;
+            mouseEnterAndLeaveLabelBorder(border, "#6600FF", new Size(220, 60));
+        }
+
+        private void borderSaveAcc_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Border border = (Border)sender;
+            mouseEnterAndLeaveLabelBorder(border, "#7163ba", new Size(200, 50));
         }
     }
 }
