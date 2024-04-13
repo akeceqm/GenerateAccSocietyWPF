@@ -8,7 +8,8 @@ namespace GeneratePasswordWPF.Model.DbTables
 {
     public class SocietyTable
     {
-        public long SocietyId { get; set; }
+        public int SocietyId { get; set; }
         public string SocietyName { get; set; }
+        public int Count {  get; set; }
     }
 }

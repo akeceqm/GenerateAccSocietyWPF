@@ -1,4 +1,5 @@
 ﻿using GeneratePasswordWPF.Model.DbTables;
+using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.ViewModel;
 using System;
 using System.Reflection;
@@ -17,14 +18,12 @@ namespace GeneratePasswordWPF
     {
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
+        ApplicationDb applicationDb = new ApplicationDb();
         public MainWindow()
         {
             InitializeComponent();
-            List<SocietyTable> societies = TestLsit.GetTestSocieties();
-            foreach(var society in societies)
-            {
-                listBoxSociety.Items.Add(society.SocietyName);
-            }
+            applicationDb = new ApplicationDb();
+
         }
 
         public void FullScreenState()
@@ -238,17 +237,30 @@ namespace GeneratePasswordWPF
 
         private void copyPassword_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string originalTextPassword = resultPassword.ToString();
-            string deleteText = "System.Windows.Controls.Label: ";
-            Clipboard.SetText(originalTextPassword.Substring(deleteText.Length));
+            if (resultPassword.Content.ToString() == "Тут будет находиться ваш пароль!")
+            {
+
+            }
+            else
+            {
+                string originalTextPassword = resultPassword.ToString();
+                string deleteText = "System.Windows.Controls.Label: ";
+                Clipboard.SetText(originalTextPassword.Substring(deleteText.Length));
+
+            }
         }
 
         private void copyLogin_MouseDown(object sender, MouseButtonEventArgs e)
-        {   
-            string originalTexLogin = resultLogin.ToString();
-            string deleteText = "System.Windows.Controls.Label: ";
-            Clipboard.SetText(originalTexLogin.Substring(deleteText.Length));
-            
+        {
+            if (resultLogin.Content.ToString() == "Тут будет находиться ваш логин!")
+            {
+            }
+            else
+            {
+                string originalTextLogin = resultLogin.ToString();
+                string deleteText = "System.Windows.Controls.Label: ";
+                Clipboard.SetText(originalTextLogin.Substring(deleteText.Length));
+            }
         }
 
         private void borderSaveAcc_MouseEnter(object sender, MouseEventArgs e)
@@ -261,6 +273,11 @@ namespace GeneratePasswordWPF
         {
             Border border = (Border)sender;
             mouseEnterAndLeaveLabelBorder(border, "#7163ba", new Size(200, 50));
+        }
+
+        private async void borderSaveAcc_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            applicationDb.AddAcc(resultLogin.Content.ToString(),resultPassword.Content.ToString());
         }
     }
 }
