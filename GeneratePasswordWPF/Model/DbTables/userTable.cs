@@ -11,5 +11,7 @@ namespace GeneratePasswordWPF.Model.DbTables
         public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public int SocietyId { get; set; }
+        public string SocietyName { get; set; }
     }
 }

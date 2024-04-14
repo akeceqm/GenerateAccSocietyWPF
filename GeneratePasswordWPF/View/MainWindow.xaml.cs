@@ -19,11 +19,11 @@ namespace GeneratePasswordWPF
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
+ 
         public MainWindow()
         {
             InitializeComponent();
             applicationDb = new ApplicationDb();
-
         }
 
         public void FullScreenState()
@@ -277,7 +277,34 @@ namespace GeneratePasswordWPF
 
         private async void borderSaveAcc_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            applicationDb.AddAcc(resultLogin.Content.ToString(),resultPassword.Content.ToString());
+            if (resultLogin.Content == null || resultLogin.Content.ToString() == "Тут будет находиться ваш логин!")
+            {
+                MessageBox.Show("Сгенерируйте логин!");
+            }
+            else if (resultPassword.Content == null || resultPassword.Content.ToString() == "Тут будет находиться ваш пароль!")
+            {
+                MessageBox.Show("Сгенерируйте пароль!");
+            }
+            else if (listBoxPopupSociety.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите соц-сеть");
+            }
+            else
+            {
+                string selectedSociety = listBoxPopupSociety.SelectedItem.ToString();
+                applicationDb.AddAcc(resultLogin.Content.ToString(), resultPassword.Content.ToString(), selectedSociety);
+            }
+        }
+
+        private void popupSociety_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            popupSociety.IsOpen=true;
+        }
+
+        private void popupBorderClose_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled=true;
+            popupSociety.IsOpen = false;
         }
     }
 }

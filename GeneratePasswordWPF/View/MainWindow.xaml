@@ -94,12 +94,26 @@
                     </Border>
                 </Grid>
 
-                <Border CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Width="500" Height="70" Margin="0,235,0,0">
-                    <StackPanel Orientation="Horizontal">
+                <Border CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" BorderBrush="DarkBlue" BorderThickness="1" Cursor="Hand"  Height="50" MouseDown="popupSociety_MouseDown" Margin="0,250,0,0">
+                    <Grid>
                         <Label Content="Выберите соц-сеть" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-                        <ListBox Margin="20,0,0,0" x:Name="listBoxSociety" Foreground="#fff" FontSize="15" BorderBrush="#7163ba" BorderThickness="2" Background="#000A17" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="200" MaxHeight="150"/>
-                    </StackPanel>
+                        <Popup x:Name="popupSociety" IsOpen="false" Placement="Center"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Border Background="#000a17"  Width="300" MaxHeight="200" CornerRadius="10" BorderThickness="2" BorderBrush="DarkBlue">
+                                <Grid Background="Transparent" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="160"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Style="{StaticResource borderClose}" Grid.Row="0" HorizontalAlignment="Right" Margin="5" MouseDown="popupBorderClose_MouseDown"/>
+                                    <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" Padding="5" BorderThickness="0" Foreground="#fff" FontSize="18" Grid.Row="1" x:Name="listBoxPopupSociety"/>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                    </Grid>
                 </Border>
+
+               
+
 
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
