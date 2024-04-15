@@ -1,8 +1,11 @@
 ﻿using GeneratePasswordWPF.Model.DbTables;
 using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.ViewModel;
+using Microsoft.Data.Sqlite;
 using System;
+using System.Data;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -24,6 +27,18 @@ namespace GeneratePasswordWPF
         {
             InitializeComponent();
             applicationDb = new ApplicationDb();
+            LoadSocietiesInfoBox();
+        }
+     
+
+        private void LoadSocietiesInfoBox()
+        {
+            List<string> societies = applicationDb.SelectSociety();
+            foreach (string society in societies)
+            {
+                listBoxPopupSociety.Items.Add(society);
+            }
+
         }
 
         public void FullScreenState()
@@ -291,8 +306,10 @@ namespace GeneratePasswordWPF
             }
             else
             {
-                string selectedSociety = listBoxPopupSociety.SelectedItem.ToString();
-                applicationDb.AddAcc(resultLogin.Content.ToString(), resultPassword.Content.ToString(), selectedSociety);
+                string selectedSocietyName = listBoxPopupSociety.SelectedItem.ToString();
+                int societyId = applicationDb.GetSocietyId(selectedSocietyName);
+                applicationDb.AddAcc(resultLogin.Content.ToString(), resultPassword.Content.ToString(), societyId);
+                MessageBox.Show("Все добавленнро");
             }
         }
 
@@ -305,6 +322,62 @@ namespace GeneratePasswordWPF
         {
             e.Handled=true;
             popupSociety.IsOpen = false;
+        }
+
+        private void textPlaceHolder(object sender, string message)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == "Введите описание для соц-сети" || textBox.Text == "Введите соц-сеть")
+            {
+                textBox.Text = "";
+            }
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = message;
+            }
+        }
+
+
+        private void societyNameTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolder(textBox, "");
+        }
+
+        private void societyNameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+           
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolder(textBox, "Введите соц-сеть");
+
+        }
+
+        private void societyDescTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == "Введите описание для соц-сети")
+            {
+                textPlaceHolder(textBox, "");
+            }
+        }
+
+        private void societyDescTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolder(textBox, "Введите описание для соц-сети");
+        }
+
+        private void borderClickAddSociety_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (societyNameTextBox.Text == null || societyNameTextBox.Text.ToString() == "Введите соц-сеть")
+            {
+                MessageBox.Show("Задайте название соц-сети!");
+            }
+            else
+            {
+                applicationDb.AddSociety(societyNameTextBox.Text.ToString(),societyDescTextBox.Text.ToString());
+                MessageBox.Show("Данные успешно добавлены");
+            }
         }
     }
 }
