@@ -1,19 +1,11 @@
-﻿using GeneratePasswordWPF.Model.DbTables;
-using GeneratePasswordWPF.Model.Services;
+﻿using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.ViewModel;
-using Microsoft.Data.Sqlite;
-using System;
-using System.Data;
 using System.Reflection;
-using System.Reflection.PortableExecutable;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Windows.UI.Notifications;
+
 
 namespace GeneratePasswordWPF
 {
@@ -22,14 +14,14 @@ namespace GeneratePasswordWPF
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
- 
+
         public MainWindow()
         {
             InitializeComponent();
             applicationDb = new ApplicationDb();
             LoadSocietiesInfoBox();
         }
-     
+
 
         private void LoadSocietiesInfoBox()
         {
@@ -95,6 +87,7 @@ namespace GeneratePasswordWPF
         {
             Border border = (Border)sender;
             mouseEnterAndLeaveBorderGrid(border, "#A972FE", new Size(50, 50));
+
         }
 
         private void borderLeftMenu_MouseLeave(object sender, MouseEventArgs e)
@@ -147,7 +140,7 @@ namespace GeneratePasswordWPF
             if (int.TryParse(amount.Text, out var amountPass))
             {
                 string password = generatePassword.GenerateVariblePasswordLet(lettersList, amountPass);
-                resultPassword.Content = password;
+                resultPassword.Text = password;
             }
         }
 
@@ -156,7 +149,7 @@ namespace GeneratePasswordWPF
             if (int.TryParse(amount.Text, out var amountPass))
             {
                 string login = generatePassword.GenerateVariblePasswordLet(lettersList, amountPass);
-                resultLogin.Content = login;
+                resultLogin.Text = login;
             }
         }
 
@@ -252,13 +245,13 @@ namespace GeneratePasswordWPF
 
         private void copyPassword_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (resultPassword.Content.ToString() == "Тут будет находиться ваш пароль!")
+            if (resultPassword.Text.ToString() == "Тут будет находиться ваш пароль!")
             {
 
             }
             else
             {
-                string originalTextPassword = resultPassword.ToString();
+                string originalTextPassword = resultPassword.Text.ToString();
                 string deleteText = "System.Windows.Controls.Label: ";
                 Clipboard.SetText(originalTextPassword.Substring(deleteText.Length));
 
@@ -267,12 +260,12 @@ namespace GeneratePasswordWPF
 
         private void copyLogin_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (resultLogin.Content.ToString() == "Тут будет находиться ваш логин!")
+            if (resultLogin.Text.ToString() == "Тут будет находиться ваш логин!")
             {
             }
             else
             {
-                string originalTextLogin = resultLogin.ToString();
+                string originalTextLogin = resultLogin.Text.ToString();
                 string deleteText = "System.Windows.Controls.Label: ";
                 Clipboard.SetText(originalTextLogin.Substring(deleteText.Length));
             }
@@ -290,13 +283,13 @@ namespace GeneratePasswordWPF
             mouseEnterAndLeaveLabelBorder(border, "#7163ba", new Size(200, 50));
         }
 
-        private async void borderSaveAcc_MouseDown(object sender, MouseButtonEventArgs e)
+        private void borderSaveAcc_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (resultLogin.Content == null || resultLogin.Content.ToString() == "Тут будет находиться ваш логин!")
+            if (resultLogin.Text == null || resultLogin.Text.ToString() == "Тут будет находиться ваш логин!")
             {
                 MessageBox.Show("Сгенерируйте логин!");
             }
-            else if (resultPassword.Content == null || resultPassword.Content.ToString() == "Тут будет находиться ваш пароль!")
+            else if (resultPassword.Text == null || resultPassword.Text.ToString() == "Тут будет находиться ваш пароль!")
             {
                 MessageBox.Show("Сгенерируйте пароль!");
             }
@@ -308,19 +301,19 @@ namespace GeneratePasswordWPF
             {
                 string selectedSocietyName = listBoxPopupSociety.SelectedItem.ToString();
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
-                applicationDb.AddAcc(resultLogin.Content.ToString(), resultPassword.Content.ToString(), societyId);
+                applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
                 MessageBox.Show("Все добавленнро");
             }
         }
 
         private void popupSociety_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            popupSociety.IsOpen=true;
+            popupSociety.IsOpen = true;
         }
 
         private void popupBorderClose_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            e.Handled=true;
+            e.Handled = true;
             popupSociety.IsOpen = false;
         }
 
@@ -346,7 +339,7 @@ namespace GeneratePasswordWPF
 
         private void societyNameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-           
+
             TextBox textBox = (TextBox)sender;
             textPlaceHolder(textBox, "Введите соц-сеть");
 
@@ -355,10 +348,7 @@ namespace GeneratePasswordWPF
         private void societyDescTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            if (textBox.Text == "Введите описание для соц-сети")
-            {
-                textPlaceHolder(textBox, "");
-            }
+            textPlaceHolder(textBox, "");
         }
 
         private void societyDescTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -375,8 +365,88 @@ namespace GeneratePasswordWPF
             }
             else
             {
-                applicationDb.AddSociety(societyNameTextBox.Text.ToString(),societyDescTextBox.Text.ToString());
+                applicationDb.AddSociety(societyNameTextBox.Text.ToString(), societyDescTextBox.Text.ToString());
                 MessageBox.Show("Данные успешно добавлены");
+            }
+        }
+
+        private void textPlaceHolderLoginAndPassword(object sender, string message)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == "Тут будет находиться ваш логин!" || textBox.Text == "Тут будет находиться ваш пароль!")
+            {
+                textBox.Text = "";
+            }
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                textBox.Text = message;
+            }
+        }
+
+        private void TextBoxPlaceholderLoginAndPassword_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolderLoginAndPassword(textBox, "");
+        }
+
+        private void TextBoxPlaceholderLoginAndPassword_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolderLoginAndPassword(textBox, "Тут будет находиться ваш логин!");
+        }
+
+        private void TextBoxPlaceholderPassword_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolderLoginAndPassword(textBox, "");
+        }
+
+        private void TextBoxPlaceholderPassword_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textPlaceHolderLoginAndPassword(textBox, "Тут будет находиться ваш пароль!");
+        }
+
+        private void borderClickPasswordDbList_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border border = (Border)sender;
+            AccGenerateGrid.Visibility = Visibility.Collapsed;
+            SocietyGenerateGrid.Visibility = Visibility.Visible;
+            SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
+            SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
+            borderClickMainPasswordGenerate.Background = defaultBackground;
+            borderClickPasswordDbList.Background = selectedBackground;
+            if (borderClickPasswordDbList.Background.Equals(selectedBackground))
+            {
+                border.MouseEnter -= borderLeftMenu_MouseEnter;
+                border.MouseLeave-= borderLeftMenu_MouseLeave;
+            }
+            else
+            {
+                border.MouseEnter += borderLeftMenu_MouseEnter;
+                border.MouseLeave += borderLeftMenu_MouseLeave;
+            }
+        }
+
+        private void borderClickMainPasswordGenerate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border border = (Border)sender;
+            AccGenerateGrid.Visibility = Visibility.Visible;
+            SocietyGenerateGrid.Visibility = Visibility.Collapsed;
+            SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
+            SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
+            borderClickMainPasswordGenerate.Background = selectedBackground;
+            borderClickPasswordDbList.Background = defaultBackground;
+            if (borderClickMainPasswordGenerate.Background.Equals(selectedBackground))
+            {
+                border.MouseEnter -= borderLeftMenu_MouseEnter;
+                border.MouseLeave -= borderLeftMenu_MouseLeave;
+            }
+            else
+            {
+                border.MouseEnter += borderLeftMenu_MouseEnter;
+                border.MouseLeave += borderLeftMenu_MouseLeave;
             }
         }
     }

@@ -47,13 +47,13 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0"  VerticalAlignment="top" Margin="-70,50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                    <Border Grid.Row="0" x:Name="TextBoxPlaceholderLogin"  VerticalAlignment="top" Margin="-70,50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="550"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Foreground="#fff" x:Name="resultLogin" Content="Тут будет находиться ваш логин!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox LostFocus="TextBoxPlaceholderLoginAndPassword_LostFocus" GotFocus="TextBoxPlaceholderLoginAndPassword_GotFocus"  Grid.Column="0" Foreground="#fff" x:Name="resultLogin" BorderThickness="0" Background="Transparent" Text="Тут будет находиться ваш логин!" FontSize="20" VerticalAlignment="Center" Margin="5" CaretBrush="White"/>
                             <fa:ImageAwesome MouseDown="copyLogin_MouseDown" Cursor="Hand" x:Name="copyLogin" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff">
                                 <fa:ImageAwesome.ToolTip>
                                     <ToolTip Style="{StaticResource toolTipContent}">
@@ -71,13 +71,13 @@
                     
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
-                    <Border Grid.Row="1"  VerticalAlignment="top" Margin="-70,-50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
+                    <Border x:Name="TextBoxPlaceholderPassword" Grid.Row="1" VerticalAlignment="top" Margin="-70,-50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="550"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Foreground="#fff" x:Name="resultPassword" Content="Тут будет находиться ваш пароль!" FontSize="20" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox Grid.Column="0" GotFocus="TextBoxPlaceholderPassword_GotFocus" LostFocus="TextBoxPlaceholderPassword_LostFocus"  Foreground="#fff" x:Name="resultPassword" Background="Transparent" BorderThickness="0" Text="Тут будет находиться ваш пароль!" FontSize="20" VerticalAlignment="Center" Margin="5" CaretBrush="White" OpacityMask="Black"/>
                             <fa:ImageAwesome MouseDown="copyPassword_MouseDown" Cursor="Hand" x:Name="copyPassword" Grid.Column="1" Icon="copy" Width="25" Foreground="#fff">
                                 <fa:ImageAwesome.ToolTip>
                                     <ToolTip Style="{StaticResource toolTipContent}" Cursor="">
@@ -170,8 +170,9 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="1" Visibility="Collapsed" >
-                <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400" CornerRadius="10" Background="#292d3e">
+            <Grid  Grid.Column="1" Visibility="Collapsed" x:Name="SocietyGenerateGrid" >
+                <Label Content="Создайте соц-сеть" FontSize="30" Foreground="#fff" VerticalAlignment="Top" Margin="0,30,0,0" HorizontalAlignment="Center"/>
+                <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="400" CornerRadius="10" Background="#000a17">
                     <StackPanel Orientation="Vertical"  HorizontalAlignment="Center">
                         <Border x:Name="societyNameBorder" Width="200" Height="40"  Margin="10" BorderThickness="2" BorderBrush="DarkBlue" CornerRadius="5">
                             <TextBox x:Name="societyNameTextBox" Background="Transparent" VerticalAlignment="Center" FontSize="15" GotFocus="societyNameTextBox_GotFocus" Text="Введите соц-сеть" LostFocus="societyNameTextBox_LostFocus"  Padding="5,0,5,0"  Foreground="#fff"  BorderThickness="0" CaretBrush="White"/>
@@ -189,7 +190,7 @@
                                   BorderThickness="0"
                                   CaretBrush="White"/>
                         </Border>
-                        <Border MouseDown="borderClickAddSociety_MouseDown" x:Name="borderClickAddSociety" MouseEnter="borderSaveAcc_MouseEnter" MouseLeave="borderSaveAcc_MouseLeave"  Style="{StaticResource borderMovePasswordGenerateVarible}">
+                        <Border MouseDown="borderClickAddSociety_MouseDown" x:Name="borderClickAddSociety" Width="200" Height="50" MouseEnter="borderSaveAcc_MouseEnter" MouseLeave="borderSaveAcc_MouseLeave"  Style="{StaticResource borderMovePasswordGenerateVarible}">
                             <Label Content="Добавить" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#fff" FontSize="15"/>
                         </Border>
                     </StackPanel>
@@ -199,11 +200,11 @@
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
                 <Border Width="60" Height="200" CornerRadius="20" Background="#C098FC">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
-                            <fa:ImageAwesome Icon="Lock" Width="25"/>
+                        <Border MouseDown="borderClickMainPasswordGenerate_MouseDown" MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome x:Name="faAccGenerate" Icon="Lock" Width="25"/>
                         </Border>
-                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
-                            <fa:ImageAwesome Icon="List" Width="25"/>
+                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" MouseDown="borderClickPasswordDbList_MouseDown" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome x:Name="faSocietyGenerate"  Icon="List" Width="25"/>
                         </Border>
                     </StackPanel>
                 </Border>
