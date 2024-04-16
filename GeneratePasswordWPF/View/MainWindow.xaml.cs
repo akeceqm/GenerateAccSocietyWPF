@@ -83,19 +83,6 @@ namespace GeneratePasswordWPF
             border.Height = size.Height;
         }
 
-        private void borderLeftMenu_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Border border = (Border)sender;
-            mouseEnterAndLeaveBorderGrid(border, "#A972FE", new Size(50, 50));
-
-        }
-
-        private void borderLeftMenu_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Border border = (Border)sender;
-            mouseEnterAndLeaveBorderGrid(border, "#00000000", new Size(40, 40));
-        }
-
         //метод для смены цвета border у кнопок под label
         public void mouseEnterAndLeaveLabelBorder(Border border, string borderBrush, Size size)
         {
@@ -303,6 +290,7 @@ namespace GeneratePasswordWPF
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
                 MessageBox.Show("Все добавленнро");
+                LoadSocietiesInfoBox();
             }
         }
 
@@ -367,6 +355,7 @@ namespace GeneratePasswordWPF
             {
                 applicationDb.AddSociety(societyNameTextBox.Text.ToString(), societyDescTextBox.Text.ToString());
                 MessageBox.Show("Данные успешно добавлены");
+                LoadSocietiesInfoBox();
             }
         }
 
@@ -408,46 +397,46 @@ namespace GeneratePasswordWPF
             textPlaceHolderLoginAndPassword(textBox, "Тут будет находиться ваш пароль!");
         }
 
-        private void borderClickPasswordDbList_MouseDown(object sender, MouseButtonEventArgs e)
+        private void borderClickMainUserGenerate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border border = (Border)sender;
+            border.Width = 50;
+            border.Height = 50;
+            AccGenerateGrid.Visibility = Visibility.Visible;
+            SocietyGenerateGrid.Visibility = Visibility.Collapsed;
+            SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
+            SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
+            borderClickMainUserGenerate.Background = selectedBackground;
+            borderClickDbSelect.Background = defaultBackground;
+            borderClickSocietyGenerate.Background = defaultBackground;
+        }
+
+        private void borderClickSocietyGenerate_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Border border = (Border)sender;
             AccGenerateGrid.Visibility = Visibility.Collapsed;
             SocietyGenerateGrid.Visibility = Visibility.Visible;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
-            borderClickMainPasswordGenerate.Background = defaultBackground;
-            borderClickPasswordDbList.Background = selectedBackground;
-            if (borderClickPasswordDbList.Background.Equals(selectedBackground))
-            {
-                border.MouseEnter -= borderLeftMenu_MouseEnter;
-                border.MouseLeave-= borderLeftMenu_MouseLeave;
-            }
-            else
-            {
-                border.MouseEnter += borderLeftMenu_MouseEnter;
-                border.MouseLeave += borderLeftMenu_MouseLeave;
-            }
+            borderClickMainUserGenerate.Background = defaultBackground;
+            borderClickSocietyGenerate.Background = selectedBackground;
+            borderClickDbSelect.Background = defaultBackground;
+            border.Width = 50;
+            border.Height = 50;
         }
 
-        private void borderClickMainPasswordGenerate_MouseDown(object sender, MouseButtonEventArgs e)
+        private void borderClickDbSelect_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Border border = (Border)sender;
             AccGenerateGrid.Visibility = Visibility.Visible;
             SocietyGenerateGrid.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
-            borderClickMainPasswordGenerate.Background = selectedBackground;
-            borderClickPasswordDbList.Background = defaultBackground;
-            if (borderClickMainPasswordGenerate.Background.Equals(selectedBackground))
-            {
-                border.MouseEnter -= borderLeftMenu_MouseEnter;
-                border.MouseLeave -= borderLeftMenu_MouseLeave;
-            }
-            else
-            {
-                border.MouseEnter += borderLeftMenu_MouseEnter;
-                border.MouseLeave += borderLeftMenu_MouseLeave;
-            }
+            borderClickMainUserGenerate.Background = defaultBackground;
+            borderClickSocietyGenerate.Background = defaultBackground;
+            borderClickDbSelect.Background = selectedBackground;
+            border.Width = 50;
+            border.Height = 50;
         }
     }
 }
