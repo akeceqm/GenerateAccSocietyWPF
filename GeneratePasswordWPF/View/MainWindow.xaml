@@ -88,6 +88,7 @@
                         </Grid>
                     </Border>
 
+
                     <!--Кнопка для генерации пароля-->
                     <Border Grid.Row="1" x:Name="borderClickPasswordGenerate" MouseDown="borderClickPasswordGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,-45,20,0" Cursor="Hand">
                         <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
@@ -96,6 +97,8 @@
 
                 <Border CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" BorderBrush="DarkBlue" BorderThickness="1" Cursor="Hand"  Height="50" MouseDown="popupSociety_MouseDown" Margin="0,250,0,0">
                     <Grid>
+
+
                         <Label Content="Выберите соц-сеть" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
                         <Popup x:Name="popupSociety" IsOpen="false" Placement="Center"  VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Border Background="#000a17"  Width="300" MaxHeight="200" CornerRadius="10" BorderThickness="2" BorderBrush="DarkBlue">
@@ -105,7 +108,37 @@
                                         <RowDefinition Height="160"/>
                                     </Grid.RowDefinitions>
                                     <Border Style="{StaticResource borderClose}" Grid.Row="0" HorizontalAlignment="Right" Margin="5" MouseDown="popupBorderClose_MouseDown"/>
-                                    <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" Padding="5" BorderThickness="0" Foreground="#fff" FontSize="18" Grid.Row="1" x:Name="listBoxPopupSociety"/>
+                                    <DataGrid x:Name="dataGrdiPopupLsit" Grid.Row="1"
+                                                  CanUserAddRows="False"
+                                                  IsReadOnly="True"
+                                                  AutoGenerateColumns="False"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  RowBackground="Transparent"
+                                                  BorderThickness="1"
+                                                  BorderBrush="#7163ba"
+                                                  Background="#000A17"
+                                                  HeadersVisibility="Column"
+                                                  ColumnHeaderHeight="10"
+                                                  RowHeight="50"
+                                                  GridLinesVisibility="None"
+                                                  Foreground="#fff"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="*" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}">
+                                                            <TextBlock.ToolTip>
+                                                                <ToolTip Style="{StaticResource toolTipContent}" Content="{Binding Description}"/>
+                                                            </TextBlock.ToolTip>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
                                 </Grid>
                             </Border>
                         </Popup>
@@ -212,7 +245,7 @@
                     </StackPanel>
                 </Border>
             </Grid>
-
+            <Popup x:Name="popupShowMessage" Visibility="Hidden"/>
         </Grid>
     </Border>
 </Window>
