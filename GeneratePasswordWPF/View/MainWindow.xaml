@@ -68,8 +68,8 @@
                     <Border Grid.Row="0" x:Name="borderClickLoginGenerate" MouseDown="borderClickLoginGenerate_MouseDown" BorderBrush="#7163ba" BorderThickness="2" CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" Margin="700,55,20,0">
                         <Label Cursor="Hand" Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" FontSize="15" Content="Генерировать"/>
                     </Border>
-                    
-                <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+                    <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
                     <Border x:Name="TextBoxPlaceholderPassword" Grid.Row="1" VerticalAlignment="top" Margin="-70,-50,0,0" HorizontalAlignment="Center" BorderThickness="2" BorderBrush="#7163ba" Height="60" CornerRadius="10" Width="600">
                         <Grid>
@@ -112,7 +112,7 @@
                     </Grid>
                 </Border>
 
-               
+
 
 
                 <!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
@@ -178,7 +178,7 @@
                             <TextBox x:Name="societyNameTextBox" Background="Transparent" VerticalAlignment="Center" FontSize="15" GotFocus="societyNameTextBox_GotFocus" Text="Введите соц-сеть" LostFocus="societyNameTextBox_LostFocus"  Padding="5,0,5,0"  Foreground="#fff"  BorderThickness="0" CaretBrush="White"/>
                         </Border>
                         <Border Padding="5" x:Name="societyDescBorder" Width="300" Height="200" Margin="10" BorderThickness="2" BorderBrush="DarkBlue" CornerRadius="5">
-                                <TextBox GotFocus="societyDescTextBox_GotFocus"
+                            <TextBox GotFocus="societyDescTextBox_GotFocus"
                                   LostFocus="societyDescTextBox_LostFocus"
                                   Text="Введите описание для соц-сети"
                                   x:Name="societyDescTextBox"
@@ -200,11 +200,14 @@
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
                 <Border Width="60" Height="200" CornerRadius="20" Background="#C098FC">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Border MouseDown="borderClickMainPasswordGenerate_MouseDown" MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" x:Name="borderClickMainPasswordGenerate" Style="{StaticResource borderMoveGrid}">
+                        <Border Background="#a972fe" Width="50" Height="50" MouseDown="borderClickMainUserGenerate_MouseDown"  x:Name="borderClickMainUserGenerate" Style="{StaticResource borderMoveGrid}">
                             <fa:ImageAwesome x:Name="faAccGenerate" Icon="Lock" Width="25"/>
                         </Border>
-                        <Border MouseEnter="borderLeftMenu_MouseEnter" MouseLeave="borderLeftMenu_MouseLeave" MouseDown="borderClickPasswordDbList_MouseDown" x:Name="borderClickPasswordDbList" Style="{StaticResource borderMoveGrid}">
-                            <fa:ImageAwesome x:Name="faSocietyGenerate"  Icon="List" Width="25"/>
+                        <Border  Width="50" Height="50" MouseDown="borderClickSocietyGenerate_MouseDown" x:Name="borderClickSocietyGenerate" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome x:Name="faSocietyGenerate"  Icon="Qq" Width="25"/>
+                        </Border>
+                        <Border  Width="50" Height="50"  MouseDown="borderClickDbSelect_MouseDown" x:Name="borderClickDbSelect" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome x:Name="faDbSelect"  Icon="List" Width="25"/>
                         </Border>
                     </StackPanel>
                 </Border>
