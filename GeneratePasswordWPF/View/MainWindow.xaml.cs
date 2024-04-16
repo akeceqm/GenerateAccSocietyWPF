@@ -15,6 +15,7 @@ namespace GeneratePasswordWPF
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -22,16 +23,30 @@ namespace GeneratePasswordWPF
             LoadSocietiesInfoBox();
         }
 
+        class LoadNameDescSocial
+        {
+            public string Name { get; set; }
+            public string Description { get; set; }
+        }
 
         private void LoadSocietiesInfoBox()
         {
-            List<string> societies = applicationDb.SelectSociety();
-            foreach (string society in societies)
+            var listDesc = new List<string>();
+            List<string> societies = applicationDb.SelectSociety(out listDesc);
+            List<LoadNameDescSocial> listClass = new List<LoadNameDescSocial>();
+            for (int i = 0; i < societies.Count; i++)
             {
-                listBoxPopupSociety.Items.Add(society);
+                listClass.Add(new LoadNameDescSocial
+                {
+                    Name = societies[i],
+                    Description = listDesc[i]
+                });
             }
 
+            dataGrdiPopupLsit.ItemsSource = null;
+            dataGrdiPopupLsit.ItemsSource = listClass;
         }
+
 
         public void FullScreenState()
         {
@@ -280,16 +295,17 @@ namespace GeneratePasswordWPF
             {
                 MessageBox.Show("Сгенерируйте пароль!");
             }
-            else if (listBoxPopupSociety.SelectedItem == null)
+            else if (dataGrdiPopupLsit.SelectedItem == null)
             {
                 MessageBox.Show("Выберите соц-сеть");
             }
             else
             {
-                string selectedSocietyName = listBoxPopupSociety.SelectedItem.ToString();
+                LoadNameDescSocial selectedSociety = (LoadNameDescSocial)dataGrdiPopupLsit.SelectedItem;
+                string selectedSocietyName = selectedSociety.Name;
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
-                MessageBox.Show("Все добавленнро");
+                MessageBox.Show("Все добавлен");
                 LoadSocietiesInfoBox();
             }
         }

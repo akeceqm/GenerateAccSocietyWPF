@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace GeneratePasswordWPF.Model.Services
 {
@@ -12,7 +14,7 @@ namespace GeneratePasswordWPF.Model.Services
             try
             {
                 command.Connection = connection;
-                command.CommandText = "CREATE TABLE UserTable(Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Login TEXT NOT NULL, Password TEXT NOT NULL, SocietyId INTEGET , FOREIGN KEY (SocietyId) REFERENCES SocietyTable(SocietyId))";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS UserTable(Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Login TEXT NOT NULL, Password TEXT NOT NULL, SocietyId INTEGER, FOREIGN KEY (SocietyId) REFERENCES SocietyTable(SocietyId))";
                 command.ExecuteNonQuery();
             }
             catch { }
@@ -20,7 +22,7 @@ namespace GeneratePasswordWPF.Model.Services
             try
             {
                 command.Connection = connection;
-                command.CommandText = "CREATE TABLE SocietyTable (SocietyId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, SocietyName TEXT NOT NULL,Count INTEGET, Description TEXT)";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS SocietyTable (SocietyId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, SocietyName TEXT NOT NULL, Description TEXT)";
                 command.ExecuteNonQuery();
             }
             catch { }
@@ -42,26 +44,30 @@ namespace GeneratePasswordWPF.Model.Services
 
         public void AddSociety(string SocietyName, string Description)
         {
-            SqliteCommand command =new SqliteCommand();
-            command.Connection=Conn();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
             command.CommandText = $"INSERT INTO SocietyTable (SocietyName,Description) VALUES ('{SocietyName}','{Description}')";
             command.ExecuteNonQuery();
         }
 
-        public List<string> SelectSociety()
+        public List<string> SelectSociety(out List<string> societiesDesc)
         {
             List<string> societies = new List<string>();
-
+            societiesDesc = new List<string>();
             SqliteCommand command = new SqliteCommand();
             command.Connection = Conn();
             command.CommandText = $"SELECT SocietyName,Description FROM SocietyTable";
 
             SqliteDataReader reader = command.ExecuteReader();
 
-            while (reader.Read()) {
+            while (reader.Read())
+            {
+
                 string societyName = reader["SocietyName"].ToString();
                 string description = reader["Description"].ToString();
+
                 societies.Add(societyName);
+                societiesDesc.Add(description);
             }
 
             reader.Close();
@@ -72,19 +78,17 @@ namespace GeneratePasswordWPF.Model.Services
         public int GetSocietyId(string societyName)
         {
             int societyId = -1; // Или какое-то значение по умолчанию, если соц-сеть не найдена
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"SELECT SocietyId FROM SocietyTable WHERE SocietyName = @SocietyName";
+            command.Parameters.AddWithValue("@SocietyName", societyName);
 
-            using (SqliteCommand command = new SqliteCommand())
+            object result = command.ExecuteScalar();
+            if (result != null)
             {
-                command.Connection = Conn();
-                command.CommandText = $"SELECT SocietyId FROM SocietyTable WHERE SocietyName = @SocietyName";
-                command.Parameters.AddWithValue("@SocietyName", societyName);
-
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    societyId = Convert.ToInt32(result);
-                }
+                societyId = Convert.ToInt32(result);
             }
+
 
             return societyId;
         }
