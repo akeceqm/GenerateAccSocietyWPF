@@ -1,10 +1,12 @@
 ﻿using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.ViewModel;
 using System.Reflection;
+using System.Security.Cryptography.Xml;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static GeneratePasswordWPF.Model.Services.ApplicationDb;
 
 
 namespace GeneratePasswordWPF
@@ -21,6 +23,9 @@ namespace GeneratePasswordWPF
             InitializeComponent();
             applicationDb = new ApplicationDb();
             LoadSocietiesInfoBox();
+            dataGridSelectInfo.Items.Clear();
+            List<UserInfo> users = applicationDb.SelectInfoUser();
+            dataGridSelectInfo.ItemsSource = users;
         }
 
         class LoadNameDescSocial
@@ -307,6 +312,32 @@ namespace GeneratePasswordWPF
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
                 MessageBox.Show("Все добавлен");
                 LoadSocietiesInfoBox();
+                List<UserInfo> users = applicationDb.SelectInfoUser();
+                dataGridSelectInfo.ItemsSource = users;
+
+            }
+        }
+
+        private void DeleteButton_MouseDown(object sender, RoutedEventArgs e)
+        {
+            // Получаем кнопку, которая была нажата
+            Border border = sender as Border;
+
+            // Получаем соответствующую строку DataGrid
+            if (border != null && border.DataContext is UserInfo userInfo)
+            {
+                // Удаляем из базы данных
+                applicationDb.DelInfoUser(userInfo.Id);
+
+                // Получаем текущий список пользователей
+                List<UserInfo> users = (List<UserInfo>)dataGridSelectInfo.ItemsSource;
+
+                // Удаляем этот объект из списка
+                users.Remove(userInfo);
+
+                // Обновляем ItemsSource с обновленным списком
+                dataGridSelectInfo.ItemsSource = null;
+                dataGridSelectInfo.ItemsSource = users;
             }
         }
 
@@ -363,7 +394,7 @@ namespace GeneratePasswordWPF
 
         private void borderClickAddSociety_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (societyNameTextBox.Text == null || societyNameTextBox.Text.ToString() == "Введите соц-сеть")
+            if (societyNameTextBox.Text.ToString() == null || societyNameTextBox.Text.ToString() == "Введите соц-сеть")
             {
                 MessageBox.Show("Задайте название соц-сети!");
             }
@@ -420,6 +451,7 @@ namespace GeneratePasswordWPF
             border.Height = 50;
             AccGenerateGrid.Visibility = Visibility.Visible;
             SocietyGenerateGrid.Visibility = Visibility.Collapsed;
+            GridSelectInfo.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = selectedBackground;
@@ -432,6 +464,7 @@ namespace GeneratePasswordWPF
             Border border = (Border)sender;
             AccGenerateGrid.Visibility = Visibility.Collapsed;
             SocietyGenerateGrid.Visibility = Visibility.Visible;
+            GridSelectInfo.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = defaultBackground;
@@ -444,8 +477,9 @@ namespace GeneratePasswordWPF
         private void borderClickDbSelect_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Border border = (Border)sender;
-            AccGenerateGrid.Visibility = Visibility.Visible;
+            AccGenerateGrid.Visibility = Visibility.Collapsed;
             SocietyGenerateGrid.Visibility = Visibility.Collapsed;
+            GridSelectInfo.Visibility = Visibility.Visible;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = defaultBackground;
