@@ -50,6 +50,75 @@ namespace GeneratePasswordWPF.Model.Services
             command.ExecuteNonQuery();
         }
 
+        public class UserInfo
+        {
+            public int Id { get; set; }
+            public string Login { get; set; }
+            public string Password { get; set; }
+            public string SocietyName { get; set; }
+            public string Description { get; set; }
+        }
+
+        public List<UserInfo> SelectInfoUser()
+        {
+            List<UserInfo> listSelectInfoUser = new List<UserInfo>();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"SELECT u.Id, u.Login, u.Password, s.SocietyName, s.Description FROM UserTable u JOIN SocietyTable s ON u.SocietyId = s.SocietyId";
+            SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                UserInfo userInfo = new UserInfo
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Login = reader.GetString(reader.GetOrdinal("Login")),
+                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                    SocietyName = reader.GetString(reader.GetOrdinal("SocietyName")),
+                    Description = reader.GetString(reader.GetOrdinal("Description"))
+                };
+                listSelectInfoUser.Add(userInfo);
+            }
+            return listSelectInfoUser;
+        }
+
+
+        public void CreateUserInfoTable()
+        {
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+
+            // Создание таблицы UserInfo с данными из UserTable и SocietyTable
+            command.CommandText = @"
+            CREATE TABLE IF NOT EXISTS UserInfo AS
+            SELECT u.Id, u.Login, u.Password, s.SocietyName, s.Description
+            FROM UserTable u
+            JOIN SocietyTable s ON u.SocietyId = s.SocietyId;
+        ";
+
+            command.ExecuteNonQuery();
+        }
+
+
+        public void UserIdUpdate()
+        {
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = "UPDATE UserInfo SET Id = Id - 1 WHERE Id > 1";
+            command.ExecuteNonQuery();
+
+        }
+
+        public void DelInfoUser(int Id)
+        {
+            CreateUserInfoTable();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"DELETE FROM UserTable WHERE Id = {Id}";
+            command.ExecuteNonQuery();
+
+            UserIdUpdate();
+        }
+
         public List<string> SelectSociety(out List<string> societiesDesc)
         {
             List<string> societies = new List<string>();
