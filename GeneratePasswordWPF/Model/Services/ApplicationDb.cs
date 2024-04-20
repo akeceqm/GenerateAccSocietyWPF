@@ -98,16 +98,6 @@ namespace GeneratePasswordWPF.Model.Services
             command.ExecuteNonQuery();
         }
 
-
-        public void UserIdUpdate()
-        {
-            SqliteCommand command = new SqliteCommand();
-            command.Connection = Conn();
-            command.CommandText = "UPDATE UserInfo SET Id = Id - 1 WHERE Id > 1";
-            command.ExecuteNonQuery();
-
-        }
-
         public void DelInfoUser(int Id)
         {
             CreateUserInfoTable();
@@ -115,8 +105,17 @@ namespace GeneratePasswordWPF.Model.Services
             command.Connection = Conn();
             command.CommandText = $"DELETE FROM UserTable WHERE Id = {Id}";
             command.ExecuteNonQuery();
+        }
 
-            UserIdUpdate();
+        public void UpdateSociety(string newName, string newDescription, int societyId)
+        {
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"UPDATE SocietyTable SET SocietyName = @Name, Description = @Description WHERE SocietyId = @SocietyId";
+            command.Parameters.AddWithValue("@Name", newName);
+            command.Parameters.AddWithValue("@Description", newDescription);
+            command.Parameters.AddWithValue("@SocietyId", societyId);
+            command.ExecuteNonQuery();
         }
 
         public List<string> SelectSociety(out List<string> societiesDesc)
@@ -125,7 +124,7 @@ namespace GeneratePasswordWPF.Model.Services
             societiesDesc = new List<string>();
             SqliteCommand command = new SqliteCommand();
             command.Connection = Conn();
-            command.CommandText = $"SELECT SocietyName,Description FROM SocietyTable";
+            command.CommandText = $"SELECT SocietyId, SocietyName,Description FROM SocietyTable";
 
             SqliteDataReader reader = command.ExecuteReader();
 
