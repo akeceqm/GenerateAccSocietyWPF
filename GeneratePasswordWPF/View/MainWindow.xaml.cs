@@ -1,9 +1,11 @@
 ﻿using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.ViewModel;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Security.Cryptography.Xml;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using static GeneratePasswordWPF.Model.Services.ApplicationDb;
@@ -17,41 +19,43 @@ namespace GeneratePasswordWPF
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
 
-
         public MainWindow()
         {
             InitializeComponent();
             applicationDb = new ApplicationDb();
-            LoadSocietiesInfoBox();
-            dataGridSelectInfo.Items.Clear();
+            LoadSocietiesInfoBox(dataGrdiPopupLsit);
+            LoadSocietiesInfoBox(dataGridSelectSociety);
+
             List<UserInfo> users = applicationDb.SelectInfoUser();
             dataGridSelectInfo.ItemsSource = users;
         }
 
         class LoadNameDescSocial
         {
+            public int SocietyId { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
         }
 
-        private void LoadSocietiesInfoBox()
+        private void LoadSocietiesInfoBox(ItemsControl text)
         {
             var listDesc = new List<string>();
             List<string> societies = applicationDb.SelectSociety(out listDesc);
             List<LoadNameDescSocial> listClass = new List<LoadNameDescSocial>();
+
             for (int i = 0; i < societies.Count; i++)
             {
                 listClass.Add(new LoadNameDescSocial
                 {
+                    SocietyId = i + 1,
                     Name = societies[i],
                     Description = listDesc[i]
+
                 });
             }
-
-            dataGrdiPopupLsit.ItemsSource = null;
-            dataGrdiPopupLsit.ItemsSource = listClass;
+            text.ItemsSource = null;
+            text.ItemsSource = listClass;
         }
-
 
         public void FullScreenState()
         {
@@ -258,9 +262,8 @@ namespace GeneratePasswordWPF
             }
             else
             {
-                string originalTextPassword = resultPassword.Text.ToString();
-                string deleteText = "System.Windows.Controls.Label: ";
-                Clipboard.SetText(originalTextPassword.Substring(deleteText.Length));
+                string originalTextLogin = resultPassword.Text.ToString();
+                Clipboard.SetText(originalTextLogin);
 
             }
         }
@@ -273,8 +276,7 @@ namespace GeneratePasswordWPF
             else
             {
                 string originalTextLogin = resultLogin.Text.ToString();
-                string deleteText = "System.Windows.Controls.Label: ";
-                Clipboard.SetText(originalTextLogin.Substring(deleteText.Length));
+                Clipboard.SetText(originalTextLogin);
             }
         }
 
@@ -311,7 +313,7 @@ namespace GeneratePasswordWPF
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
                 MessageBox.Show("Все добавлен");
-                LoadSocietiesInfoBox();
+                LoadSocietiesInfoBox(dataGrdiPopupLsit);
                 List<UserInfo> users = applicationDb.SelectInfoUser();
                 dataGridSelectInfo.ItemsSource = users;
 
@@ -402,7 +404,7 @@ namespace GeneratePasswordWPF
             {
                 applicationDb.AddSociety(societyNameTextBox.Text.ToString(), societyDescTextBox.Text.ToString());
                 MessageBox.Show("Данные успешно добавлены");
-                LoadSocietiesInfoBox();
+                LoadSocietiesInfoBox(dataGrdiPopupLsit);
             }
         }
 
@@ -452,11 +454,13 @@ namespace GeneratePasswordWPF
             AccGenerateGrid.Visibility = Visibility.Visible;
             SocietyGenerateGrid.Visibility = Visibility.Collapsed;
             GridSelectInfo.Visibility = Visibility.Collapsed;
+            GridSelectSociety.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = selectedBackground;
             borderClickDbSelect.Background = defaultBackground;
             borderClickSocietyGenerate.Background = defaultBackground;
+            borderClickSocietySelect.Background = defaultBackground;
         }
 
         private void borderClickSocietyGenerate_MouseDown(object sender, MouseButtonEventArgs e)
@@ -465,11 +469,13 @@ namespace GeneratePasswordWPF
             AccGenerateGrid.Visibility = Visibility.Collapsed;
             SocietyGenerateGrid.Visibility = Visibility.Visible;
             GridSelectInfo.Visibility = Visibility.Collapsed;
+            GridSelectSociety.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = defaultBackground;
             borderClickSocietyGenerate.Background = selectedBackground;
             borderClickDbSelect.Background = defaultBackground;
+            borderClickSocietySelect.Background = defaultBackground;
             border.Width = 50;
             border.Height = 50;
         }
@@ -480,13 +486,71 @@ namespace GeneratePasswordWPF
             AccGenerateGrid.Visibility = Visibility.Collapsed;
             SocietyGenerateGrid.Visibility = Visibility.Collapsed;
             GridSelectInfo.Visibility = Visibility.Visible;
+            GridSelectSociety.Visibility = Visibility.Collapsed;
             SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
             SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
             borderClickMainUserGenerate.Background = defaultBackground;
             borderClickSocietyGenerate.Background = defaultBackground;
             borderClickDbSelect.Background = selectedBackground;
+            borderClickSocietySelect.Background = defaultBackground;
             border.Width = 50;
             border.Height = 50;
+        }
+
+        private void borderClickSocietySelect_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Border border = (Border)sender;
+            AccGenerateGrid.Visibility = Visibility.Collapsed;
+            SocietyGenerateGrid.Visibility = Visibility.Collapsed;
+            GridSelectInfo.Visibility = Visibility.Collapsed;
+            GridSelectSociety.Visibility = Visibility.Visible;
+            LoadSocietiesInfoBox(dataGridSelectSociety);
+            SolidColorBrush selectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#a972fe"));
+            SolidColorBrush defaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C098FC"));
+            borderClickMainUserGenerate.Background = defaultBackground;
+            borderClickSocietyGenerate.Background = defaultBackground;
+            borderClickDbSelect.Background = defaultBackground;
+            borderClickSocietySelect.Background = selectedBackground;
+            border.Width = 50;
+            border.Height = 50;
+        }
+
+        private void DataGridCopyLoginAndPassword_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock text = (TextBlock)sender;
+            string originalText = text.Text.ToString();
+            Clipboard.SetText(originalText);
+        }
+
+        private void societyChange_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            popupChangeNameDescription.IsOpen = true;
+        }
+
+        private void popupCloseChangeSociety_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            popupChangeNameDescription.IsOpen = false;
+        }
+
+        private void BorderChangeSociety_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(societyNewNameTextBox.Text) && societyNewNameTextBox.Text != "Введите соц-сеть")
+            {
+                LoadNameDescSocial selectedSociety = (LoadNameDescSocial)dataGridSelectSociety.SelectedItem;
+
+                int societyId = selectedSociety.SocietyId;
+                string newName = societyNewNameTextBox.Text;
+                string newDescription = societyNewDescTextBox.Text;
+                applicationDb.UpdateSociety(newName, newDescription, societyId);
+                LoadSocietiesInfoBox(dataGridSelectSociety);
+                popupChangeNameDescription.IsOpen = false;
+            }
+            else
+            {
+                popupChangeNameDescription.IsOpen = false;
+                MessageBox.Show("Введите название для соцсети");
+            }
         }
     }
 }

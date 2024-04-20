@@ -97,10 +97,8 @@
 
                 <Border CornerRadius="10" VerticalAlignment="top" HorizontalAlignment="Center" BorderBrush="DarkBlue" BorderThickness="1" Cursor="Hand"  Height="50" MouseDown="popupSociety_MouseDown" Margin="0,250,0,0">
                     <Grid>
-
-
                         <Label Content="Выберите соц-сеть" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-                        <Popup x:Name="popupSociety" IsOpen="false" Placement="Center"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Popup AllowsTransparency="True" x:Name="popupSociety" IsOpen="false" Placement="Center"  VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Border Background="#000a17"  Width="300" MaxHeight="200" CornerRadius="10" BorderThickness="2" BorderBrush="DarkBlue">
                                 <Grid Background="Transparent" >
                                     <Grid.RowDefinitions>
@@ -124,7 +122,6 @@
                                                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                                   >
-
                                         <DataGrid.Columns>
                                             <DataGridTemplateColumn Width="*" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellTemplate>
@@ -275,19 +272,17 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="Auto" >
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
                         <DataGridTextColumn Header="Login" Binding="{Binding Login}" HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="*" >
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <EventSetter Event="MouseDown" Handler="DataGridCopyLoginAndPassword_MouseDown"/>
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <ToolTip Style="{StaticResource toolTipContent}" Content="При нажатии вы скопируете логин"/>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
@@ -296,6 +291,13 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <EventSetter Event="MouseDown" Handler="copyPassword_MouseDown"/>
+                                    <EventSetter Event="MouseDown" Handler="DataGridCopyLoginAndPassword_MouseDown"/>
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <ToolTip Style="{StaticResource toolTipContent}" Content="При нажатии вы скопируете пароль"/>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
@@ -325,13 +327,119 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-
                 </DataGrid>
-
             </Grid>
 
+            <Popup AllowsTransparency="True" x:Name="popupChangeNameDescription" IsOpen="false" Placement="Center">
+                <Border Width="500" Height="600" CornerRadius="10" Background="#000a17">
+                    <Grid>
+                        <Border Width="500" Height="40" x:Name="borderPopupDragMove" />
+                        <Border Style="{StaticResource borderClose}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10" x:Name="popupCloseChangeSociety" MouseDown="popupCloseChangeSociety_MouseDown"/>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Label Content="Обновите соц-сеть" FontSize="30" Foreground="#fff" VerticalAlignment="Top" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                            <Border Width="200" Height="40" Margin="10" BorderThickness="2" BorderBrush="DarkBlue" CornerRadius="5">
+                                <TextBox TextWrapping="Wrap" x:Name="societyNewNameTextBox" Background="Transparent" VerticalAlignment="Center" FontSize="15" GotFocus="societyNameTextBox_GotFocus" Text="Введите соц-сеть" LostFocus="societyNameTextBox_LostFocus" Padding="5,0,5,0" Foreground="#fff" BorderThickness="0" CaretBrush="White"/>
+                            </Border>
+                            <Border Width="300" Height="200" Margin="10" BorderThickness="2" BorderBrush="DarkBlue" CornerRadius="5">
+                                <TextBox GotFocus="societyDescTextBox_GotFocus" LostFocus="societyDescTextBox_LostFocus" Text="Введите описание для соц-сети" x:Name="societyNewDescTextBox" Background="Transparent" FontSize="20" TextWrapping="Wrap" Padding="5,0,5,0" Foreground="#fff" BorderThickness="0" CaretBrush="White"/>
+                            </Border>
+                            <Border Width="200" Height="50"  Style="{StaticResource borderMovePasswordGenerateVarible}"  MouseDown="BorderChangeSociety_MouseDown" MouseEnter="borderSaveAcc_MouseEnter" MouseLeave="borderSaveAcc_MouseLeave">
+                                <Label Content="Изменить" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#fff" FontSize="15"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Popup>
+
+            <Grid Grid.Column="1" x:Name="GridSelectSociety" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Visibility="Collapsed">
+                <Label Content="Информация о аккаунтах" FontSize="30" Foreground="#FFF" HorizontalAlignment="Center"/>
+                <DataGrid x:Name="dataGridSelectSociety"
+                      Margin="0,70,0,0" 
+                  CanUserAddRows="False"
+                 IsReadOnly="True"
+                 AutoGenerateColumns="False"
+                 VirtualizingPanel.IsVirtualizing="True"
+                 RowBackground="Transparent"
+                 BorderThickness="1"
+                 BorderBrush="#7163ba"
+                 Background="#000a17"
+                 HeadersVisibility="Column"
+                 ColumnHeaderHeight="40"
+                 RowHeight="30"
+                 GridLinesVisibility="None"
+                 Foreground="#fff"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+         FontSize="20">
+                    <DataGrid.Resources>
+                        <!-- Шаблон для заголовков столбцов -->
+                        <ControlTemplate x:Key="ColumnHeaderTemplate" TargetType="{x:Type DataGridColumnHeader}">
+                            <Grid>
+                                <Border Background="#000a17" BorderThickness="1" BorderBrush="#7163ba" Padding="5" >
+                                    <TextBlock Text="{TemplateBinding Content}"
+                              Foreground="White"
+                              FontSize="15"
+                              TextAlignment="Center"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                                     />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+
+                        <!-- Общий стиль для заголовков столбцов -->
+                        <Style TargetType="DataGridColumnHeader" x:Key="ColumnHeaderStyle">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Template" Value="{StaticResource ColumnHeaderTemplate}" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+
+
+                        <DataGridTextColumn Header="SocietyName" x:Name="selectSocietyName" Binding="{Binding Name}" HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Description" x:Name="selectSocietyDescription" Binding="{Binding Description}" HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate >
+                                    <Border MouseDown="societyChange_MouseDown" x:Name="societyRed"  Width="25" Height="25">
+                                        <fa:ImageAwesome x:Name="faAccGenerate" Icon="Reddit" Cursor="Hand"  Foreground="#fff" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <fa:ImageAwesome.Style>
+                                                <Style TargetType="fa:ImageAwesome">
+                                                    <Setter Property="Width" Value="20"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Width" Value="30"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </fa:ImageAwesome.Style>
+                                        </fa:ImageAwesome>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="10">
-                <Border Width="60" Height="200" CornerRadius="20" Background="#C098FC">
+                <Border Width="60" Height="260" CornerRadius="20" Background="#C098FC">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Border Background="#a972fe" Width="50" Height="50" MouseDown="borderClickMainUserGenerate_MouseDown"  x:Name="borderClickMainUserGenerate" Style="{StaticResource borderMoveGrid}">
                             <fa:ImageAwesome x:Name="faAccGenerate" Icon="Lock" Width="25"/>
@@ -341,6 +449,9 @@
                         </Border>
                         <Border  Width="50" Height="50"  MouseDown="borderClickDbSelect_MouseDown" x:Name="borderClickDbSelect" Style="{StaticResource borderMoveGrid}">
                             <fa:ImageAwesome x:Name="faDbSelect"  Icon="List" Width="25"/>
+                        </Border>
+                        <Border  Width="50" Height="50"  MouseDown="borderClickSocietySelect_MouseDown" x:Name="borderClickSocietySelect" Style="{StaticResource borderMoveGrid}">
+                            <fa:ImageAwesome x:Name="faSocietySelect"  Icon="Telegram" Width="25"/>
                         </Border>
                     </StackPanel>
                 </Border>
