@@ -130,7 +130,6 @@ namespace GeneratePasswordWPF.Model.Services
 
             while (reader.Read())
             {
-
                 string societyName = reader["SocietyName"].ToString();
                 string description = reader["Description"].ToString();
 
