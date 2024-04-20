@@ -331,7 +331,7 @@
             </Grid>
 
             <Popup AllowsTransparency="True" x:Name="popupChangeNameDescription" IsOpen="false" Placement="Center">
-                <Border Width="500" Height="600" CornerRadius="10" Background="#000a17">
+                <Border Width="500" BorderThickness="1" BorderBrush="#7163ba" Height="450" CornerRadius="10" Background="#000a17">
                     <Grid>
                         <Border Width="500" Height="40" x:Name="borderPopupDragMove" />
                         <Border Style="{StaticResource borderClose}" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10" x:Name="popupCloseChangeSociety" MouseDown="popupCloseChangeSociety_MouseDown"/>
@@ -456,7 +456,6 @@
                     </StackPanel>
                 </Border>
             </Grid>
-            <Popup x:Name="popupShowMessage" Visibility="Hidden"/>
         </Grid>
     </Border>
 </Window>

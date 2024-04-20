@@ -1,4 +1,5 @@
 ﻿using GeneratePasswordWPF.Model.Services;
+using GeneratePasswordWPF.View;
 using GeneratePasswordWPF.ViewModel;
 using System.Collections.ObjectModel;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace GeneratePasswordWPF
 {
     public partial class MainWindow : Window
     {
+        MessageBoxCustom messageBoxCustom = new MessageBoxCustom();
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
@@ -296,15 +298,15 @@ namespace GeneratePasswordWPF
         {
             if (resultLogin.Text == null || resultLogin.Text.ToString() == "Тут будет находиться ваш логин!")
             {
-                MessageBox.Show("Сгенерируйте логин!");
+                MessageBoxCustomManager.Show("Сгенерируйте логин!");
             }
             else if (resultPassword.Text == null || resultPassword.Text.ToString() == "Тут будет находиться ваш пароль!")
             {
-                MessageBox.Show("Сгенерируйте пароль!");
+                MessageBoxCustomManager.Show("Сгенерируйте пароль!");
             }
             else if (dataGrdiPopupLsit.SelectedItem == null)
             {
-                MessageBox.Show("Выберите соц-сеть");
+                MessageBoxCustomManager.Show("Выберите соц-сеть");
             }
             else
             {
@@ -312,7 +314,7 @@ namespace GeneratePasswordWPF
                 string selectedSocietyName = selectedSociety.Name;
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
-                MessageBox.Show("Все добавлен");
+                MessageBoxCustomManager.Show("Все добавлен");
                 LoadSocietiesInfoBox(dataGrdiPopupLsit);
                 List<UserInfo> users = applicationDb.SelectInfoUser();
                 dataGridSelectInfo.ItemsSource = users;
@@ -398,12 +400,12 @@ namespace GeneratePasswordWPF
         {
             if (societyNameTextBox.Text.ToString() == null || societyNameTextBox.Text.ToString() == "Введите соц-сеть")
             {
-                MessageBox.Show("Задайте название соц-сети!");
+                MessageBoxCustomManager.Show("Задайте название соц-сети!");
             }
             else
             {
                 applicationDb.AddSociety(societyNameTextBox.Text.ToString(), societyDescTextBox.Text.ToString());
-                MessageBox.Show("Данные успешно добавлены");
+                MessageBoxCustomManager.Show("Данные успешно добавлены");
                 LoadSocietiesInfoBox(dataGrdiPopupLsit);
             }
         }
@@ -549,7 +551,7 @@ namespace GeneratePasswordWPF
             else
             {
                 popupChangeNameDescription.IsOpen = false;
-                MessageBox.Show("Введите название для соцсети");
+                MessageBoxCustomManager.Show("Введите название для соцсети");
             }
         }
     }
