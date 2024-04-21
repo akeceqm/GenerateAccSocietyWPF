@@ -49,7 +49,7 @@
 
 ---
 
-### Попап для обновления
+### Всплывающее окно для обновления
 <img src="https://github.com/akeceqm/GenerateAccSocietyWPF/blob/master/GeneratePasswordWPF/ReadmePhoto/2popup4Page.png" width="100%" align="center" />
 
 ---
