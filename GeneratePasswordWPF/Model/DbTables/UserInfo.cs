@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace GeneratePasswordWPF.Model.DbTables
 {
-    public class SocietyTable
+    public class UserInfo
     {
-        public int SocietyId { get; set; }
+        public int Id { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
         public string SocietyName { get; set; }
-        public int Count { get; set; }
+        public int SocietyId { get; set; }
         public string Description { get; set; }
     }
 }

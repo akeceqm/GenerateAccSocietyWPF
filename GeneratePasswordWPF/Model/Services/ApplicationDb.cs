@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using GeneratePasswordWPF.Model.DbTables;
+using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Windows.Controls;
 
@@ -50,21 +51,12 @@ namespace GeneratePasswordWPF.Model.Services
             command.ExecuteNonQuery();
         }
 
-        public class UserInfo
-        {
-            public int Id { get; set; }
-            public string Login { get; set; }
-            public string Password { get; set; }
-            public string SocietyName { get; set; }
-            public string Description { get; set; }
-        }
-
         public List<UserInfo> SelectInfoUser()
         {
             List<UserInfo> listSelectInfoUser = new List<UserInfo>();
             SqliteCommand command = new SqliteCommand();
             command.Connection = Conn();
-            command.CommandText = $"SELECT u.Id, u.Login, u.Password, s.SocietyName, s.Description FROM UserTable u JOIN SocietyTable s ON u.SocietyId = s.SocietyId";
+            command.CommandText = $"SELECT u.Id, u.Login, u.Password, s.SocietyName, s.Description  FROM UserTable u JOIN SocietyTable s ON u.SocietyId = s.SocietyId";
             SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -79,6 +71,26 @@ namespace GeneratePasswordWPF.Model.Services
                 listSelectInfoUser.Add(userInfo);
             }
             return listSelectInfoUser;
+        }
+
+        public List<SocietyInfo> SelectInfoSociety()
+        {
+            List<SocietyInfo> listSelectInfoSociety = new List<SocietyInfo>();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"SELECT s.SocietyId, s.SocietyName, s.Description FROM SocietyTable s JOIN UserTable u ON u.SocietyId = s.SocietyId";
+            SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                SocietyInfo societyInfo = new SocietyInfo
+                {
+                    SocietyId = reader.GetInt32(reader.GetOrdinal("SocietyId")),
+                    SocietyName = reader.GetString(reader.GetOrdinal("SocietyName")),
+                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                };
+                listSelectInfoSociety.Add(societyInfo);
+            }
+            return listSelectInfoSociety;
         }
 
 
@@ -104,6 +116,15 @@ namespace GeneratePasswordWPF.Model.Services
             SqliteCommand command = new SqliteCommand();
             command.Connection = Conn();
             command.CommandText = $"DELETE FROM UserTable WHERE Id = {Id}";
+            command.ExecuteNonQuery();
+        }
+
+        public void DelInfoSociety(int SocietyId)
+        {
+            CreateUserInfoTable();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = Conn();
+            command.CommandText = $"DELETE FROM SocietyTable WHERE SocietyId = {SocietyId}";
             command.ExecuteNonQuery();
         }
 

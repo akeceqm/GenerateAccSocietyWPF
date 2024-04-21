@@ -17,6 +17,7 @@ namespace GeneratePasswordWPF.View
     public partial class MessageBoxCustom : Window
     {
         public string MessageError { get; set; }
+        public string MessageLabel { get; set; }
         public MessageBoxCustom()
         {
             InitializeComponent();

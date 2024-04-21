@@ -352,7 +352,7 @@
             </Popup>
 
             <Grid Grid.Column="1" x:Name="GridSelectSociety" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Visibility="Collapsed">
-                <Label Content="Информация о аккаунтах" FontSize="30" Foreground="#FFF" HorizontalAlignment="Center"/>
+                <Label Content="Информация о соц-сетях" FontSize="30" Foreground="#FFF" HorizontalAlignment="Center"/>
                 <DataGrid x:Name="dataGridSelectSociety"
                       Margin="0,70,0,0" 
                   CanUserAddRows="False"
@@ -405,6 +405,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+
                         <DataGridTextColumn Header="Description" x:Name="selectSocietyDescription" Binding="{Binding Description}" HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="*">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
@@ -413,6 +414,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+
                         <DataGridTemplateColumn HeaderStyle="{StaticResource ColumnHeaderStyle}" Width="70">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
@@ -433,6 +435,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

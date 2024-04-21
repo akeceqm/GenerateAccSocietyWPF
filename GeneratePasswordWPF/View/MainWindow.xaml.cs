@@ -1,7 +1,9 @@
-﻿using GeneratePasswordWPF.Model.Services;
+﻿using GeneratePasswordWPF.Model.DbTables;
+using GeneratePasswordWPF.Model.Services;
 using GeneratePasswordWPF.View;
 using GeneratePasswordWPF.ViewModel;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography.Xml;
 using System.Windows;
@@ -9,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using Windows.System;
 using static GeneratePasswordWPF.Model.Services.ApplicationDb;
 
 
@@ -16,10 +19,10 @@ namespace GeneratePasswordWPF
 {
     public partial class MainWindow : Window
     {
-        MessageBoxCustom messageBoxCustom = new MessageBoxCustom();
         GeneratePassword generatePassword = new GeneratePassword();
         Random random = new Random();
         ApplicationDb applicationDb = new ApplicationDb();
+
 
         public MainWindow()
         {
@@ -28,6 +31,7 @@ namespace GeneratePasswordWPF
             LoadSocietiesInfoBox(dataGrdiPopupLsit);
             LoadSocietiesInfoBox(dataGridSelectSociety);
 
+            List<SocietyInfo> societyInfos = applicationDb.SelectInfoSociety();
             List<UserInfo> users = applicationDb.SelectInfoUser();
             dataGridSelectInfo.ItemsSource = users;
         }
@@ -57,6 +61,7 @@ namespace GeneratePasswordWPF
             }
             text.ItemsSource = null;
             text.ItemsSource = listClass;
+
         }
 
         public void FullScreenState()
@@ -298,15 +303,15 @@ namespace GeneratePasswordWPF
         {
             if (resultLogin.Text == null || resultLogin.Text.ToString() == "Тут будет находиться ваш логин!")
             {
-                MessageBoxCustomManager.Show("Сгенерируйте логин!");
+                MessageBoxCustomManager.Show("Ошибка", "Сгенерируйте логин!");
             }
             else if (resultPassword.Text == null || resultPassword.Text.ToString() == "Тут будет находиться ваш пароль!")
             {
-                MessageBoxCustomManager.Show("Сгенерируйте пароль!");
+                MessageBoxCustomManager.Show("Ошибка", "Сгенерируйте пароль!");
             }
             else if (dataGrdiPopupLsit.SelectedItem == null)
             {
-                MessageBoxCustomManager.Show("Выберите соц-сеть");
+                MessageBoxCustomManager.Show("Ошибка", "Выберите соц-сеть");
             }
             else
             {
@@ -314,10 +319,12 @@ namespace GeneratePasswordWPF
                 string selectedSocietyName = selectedSociety.Name;
                 int societyId = applicationDb.GetSocietyId(selectedSocietyName);
                 applicationDb.AddAcc(resultLogin.Text.ToString(), resultPassword.Text.ToString(), societyId);
-                MessageBoxCustomManager.Show("Все добавлен");
+                MessageBoxCustomManager.Show("Успешно", "Все добавлен");
+
                 LoadSocietiesInfoBox(dataGrdiPopupLsit);
                 List<UserInfo> users = applicationDb.SelectInfoUser();
                 dataGridSelectInfo.ItemsSource = users;
+
 
             }
         }
@@ -400,12 +407,12 @@ namespace GeneratePasswordWPF
         {
             if (societyNameTextBox.Text.ToString() == null || societyNameTextBox.Text.ToString() == "Введите соц-сеть")
             {
-                MessageBoxCustomManager.Show("Задайте название соц-сети!");
+                MessageBoxCustomManager.Show("Ошибка", "Задайте название соц-сети!");
             }
             else
             {
                 applicationDb.AddSociety(societyNameTextBox.Text.ToString(), societyDescTextBox.Text.ToString());
-                MessageBoxCustomManager.Show("Данные успешно добавлены");
+                MessageBoxCustomManager.Show("Успешно", "Данные успешно добавлены");
                 LoadSocietiesInfoBox(dataGrdiPopupLsit);
             }
         }
@@ -533,6 +540,7 @@ namespace GeneratePasswordWPF
         {
             e.Handled = true;
             popupChangeNameDescription.IsOpen = false;
+
         }
 
         private void BorderChangeSociety_MouseDown(object sender, MouseButtonEventArgs e)
@@ -546,12 +554,17 @@ namespace GeneratePasswordWPF
                 string newDescription = societyNewDescTextBox.Text;
                 applicationDb.UpdateSociety(newName, newDescription, societyId);
                 LoadSocietiesInfoBox(dataGridSelectSociety);
+
+                List<UserInfo> users = applicationDb.SelectInfoUser();
+                dataGridSelectInfo.ItemsSource = users;
+
                 popupChangeNameDescription.IsOpen = false;
+
             }
             else
             {
                 popupChangeNameDescription.IsOpen = false;
-                MessageBoxCustomManager.Show("Введите название для соцсети");
+                MessageBoxCustomManager.Show("Ошибка", "Введите название для соцсети");
             }
         }
     }
