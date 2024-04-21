@@ -258,6 +258,7 @@ namespace GeneratePasswordWPF
                 combinedList.AddRange(ListPassSymbol.numberList);
                 combinedList.AddRange(ListPassSymbol.symbolList);
                 variblePasswordLet(combinedList);
+
             }
         }
 
@@ -354,7 +355,9 @@ namespace GeneratePasswordWPF
 
         private void popupSociety_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            LoadSocietiesInfoBox(dataGrdiPopupLsit);
             popupSociety.IsOpen = true;
+
         }
 
         private void popupBorderClose_MouseDown(object sender, MouseButtonEventArgs e)
